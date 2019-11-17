@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Definitions.h"
+#include "DiscordRPC.h"
+#include "Utils.h"
+
 namespace SuunoNikkiLauncher {
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -8,19 +12,21 @@ namespace SuunoNikkiLauncher {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	public ref class Launcher : public System::Windows::Forms::Form
-	{
+	public ref class Launcher : public System::Windows::Forms::Form {
 		public:
-			Launcher(void)
-			{
+			Launcher(void) {
 				InitializeComponent();
+
+				// Q: Why not just set the BackgroundImage of the form?
+				// A: Because if I do that, the window flashes weirdly sometimes and it is
+				//    also less smoother.
+				this->VersionLabel->Parent = this->BackgroundPicture;
+				this->CopyrightLabel->Parent = this->BackgroundPicture;
 			}
 
 		protected:
-			~Launcher()
-			{
-				if (components)
-				{
+			~Launcher() {
+				if (components) {
 					delete components;
 				}
 			}
@@ -36,14 +42,15 @@ namespace SuunoNikkiLauncher {
 		private: System::Windows::Forms::Button^  SoundTrackButton;
 		private: System::Windows::Forms::Button^  SettingsButton;
 		private: System::Windows::Forms::Button^  PlayButton;
+		private: System::Windows::Forms::PictureBox^  BackgroundPicture;
+
+		private: System::ComponentModel::IContainer^  components;
 
 		private:
-			System::ComponentModel::Container ^components;
 
 		#pragma region Windows Form Designer generated code
 
-		void InitializeComponent(void)
-		{
+		void InitializeComponent(void) {
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Launcher::typeid));
 			this->VersionLabel = (gcnew System::Windows::Forms::Label());
 			this->CopyrightLabel = (gcnew System::Windows::Forms::Label());
@@ -52,8 +59,9 @@ namespace SuunoNikkiLauncher {
 			this->SoundTrackButton = (gcnew System::Windows::Forms::Button());
 			this->SettingsButton = (gcnew System::Windows::Forms::Button());
 			this->PlayButton = (gcnew System::Windows::Forms::Button());
+			this->BackgroundPicture = (gcnew System::Windows::Forms::PictureBox());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->BackgroundPicture))->BeginInit();
 			this->SuspendLayout();
-
 			// 
 			// VersionLabel
 			// 
@@ -67,7 +75,6 @@ namespace SuunoNikkiLauncher {
 			this->VersionLabel->Size = System::Drawing::Size(140, 14);
 			this->VersionLabel->TabIndex = 0;
 			this->VersionLabel->Text = L"Suu no Nikki v1.0.0";
-
 			// 
 			// CopyrightLabel
 			// 
@@ -81,7 +88,6 @@ namespace SuunoNikkiLauncher {
 			this->CopyrightLabel->Size = System::Drawing::Size(112, 14);
 			this->CopyrightLabel->TabIndex = 1;
 			this->CopyrightLabel->Text = L"Infinite Splits";
-
 			// 
 			// CloseButton
 			// 
@@ -101,7 +107,6 @@ namespace SuunoNikkiLauncher {
 			this->CloseButton->Text = L"Quit";
 			this->CloseButton->UseVisualStyleBackColor = false;
 			this->CloseButton->Click += gcnew System::EventHandler(this, &Launcher::CloseButton_Click);
-
 			// 
 			// CreditsButton
 			// 
@@ -120,7 +125,7 @@ namespace SuunoNikkiLauncher {
 			this->CreditsButton->TabIndex = 3;
 			this->CreditsButton->Text = L"Credits";
 			this->CreditsButton->UseVisualStyleBackColor = false;
-
+			this->CreditsButton->Click += gcnew System::EventHandler(this, &Launcher::CreditsButton_Click);
 			// 
 			// SoundTrackButton
 			// 
@@ -139,7 +144,7 @@ namespace SuunoNikkiLauncher {
 			this->SoundTrackButton->TabIndex = 4;
 			this->SoundTrackButton->Text = L"Soundtrack";
 			this->SoundTrackButton->UseVisualStyleBackColor = false;
-
+			this->SoundTrackButton->Click += gcnew System::EventHandler(this, &Launcher::SoundTrackButton_Click);
 			// 
 			// SettingsButton
 			// 
@@ -158,7 +163,7 @@ namespace SuunoNikkiLauncher {
 			this->SettingsButton->TabIndex = 5;
 			this->SettingsButton->Text = L"Settings";
 			this->SettingsButton->UseVisualStyleBackColor = false;
-
+			this->SettingsButton->Click += gcnew System::EventHandler(this, &Launcher::SettingsButton_Click);
 			// 
 			// PlayButton
 			// 
@@ -177,30 +182,44 @@ namespace SuunoNikkiLauncher {
 			this->PlayButton->TabIndex = 6;
 			this->PlayButton->Text = L"PLAY";
 			this->PlayButton->UseVisualStyleBackColor = false;
-
+			this->PlayButton->Click += gcnew System::EventHandler(this, &Launcher::PlayButton_Click);
+			// 
+			// BackgroundPicture
+			// 
+			this->BackgroundPicture->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"BackgroundPicture.Image")));
+			this->BackgroundPicture->Location = System::Drawing::Point(0, 0);
+			this->BackgroundPicture->Name = L"BackgroundPicture";
+			this->BackgroundPicture->Size = System::Drawing::Size(407, 540);
+			this->BackgroundPicture->TabIndex = 7;
+			this->BackgroundPicture->TabStop = false;
+			this->BackgroundPicture->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::BackgroundPicture_MouseDown);
+			this->BackgroundPicture->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::BackgroundPicture_MouseMove);
+			this->BackgroundPicture->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::BackgroundPicture_MouseUp);
 			// 
 			// Launcher
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(407, 540);
+			this->Controls->Add(this->VersionLabel);
 			this->Controls->Add(this->PlayButton);
 			this->Controls->Add(this->SettingsButton);
 			this->Controls->Add(this->SoundTrackButton);
 			this->Controls->Add(this->CreditsButton);
 			this->Controls->Add(this->CloseButton);
 			this->Controls->Add(this->CopyrightLabel);
-			this->Controls->Add(this->VersionLabel);
+			this->Controls->Add(this->BackgroundPicture);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->MaximizeBox = false;
+			this->MinimizeBox = false;
 			this->Name = L"Launcher";
 			this->Text = L"Sue\'s Diary ~ Suu no Nikki";
 			this->Load += gcnew System::EventHandler(this, &Launcher::Launcher_Load);
-			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::Launcher_MouseDown);
-			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::Launcher_MouseMove);
-			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::Launcher_MouseUp);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->BackgroundPicture))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
+
 		}
 
 		#pragma endregion
@@ -213,20 +232,85 @@ namespace SuunoNikkiLauncher {
 			Launcher::Close();
 		}
 
-		private: System::Void Launcher_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		private: System::Void BackgroundPicture_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			this->dragging = true;
 			this->offset = Point(e->X, e->Y);
 		}
 
-		private: System::Void Launcher_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		private: System::Void BackgroundPicture_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			if (this->dragging) {
 				Point current_position = PointToScreen(e->Location);
 				Location = Point(current_position.X - this->offset.X, current_position.Y - this->offset.Y);
 			}
 		}
 
-		private: System::Void Launcher_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		private: System::Void BackgroundPicture_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			this->dragging = false;
+		}
+
+		private: System::Void PlayButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			std::string exec = std::string("game\\") + EXEC_NAME;
+
+			if (!file_exists(exec)) {
+				MessageBox::Show(
+					"Couldn't open the game. Make sure you have all game files in the \"game\" folder.",
+					"Error",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Error
+				);
+				return;
+			}
+
+			bool success = start_process(exec.c_str());
+
+			if (!success) {
+				return;
+			}
+
+			Launcher::Hide();
+
+			initialize_rpc_service();
+		}
+
+		private: System::Void SettingsButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			std::string exec = std::string("game\\DoConfig.exe");
+
+			if (!file_exists(exec)) {
+				MessageBox::Show(
+					"Couldn't open settings program. Make sure you have all game files in the \"game\" folder.",
+					"Error",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Error
+				);
+				return;
+			}
+
+			start_process(exec.c_str());
+		}
+
+		private: System::Void SoundTrackButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			std::string exec = std::string("game\\OrgView.exe");
+
+			if (!file_exists(exec)) {
+				MessageBox::Show(
+					"Couldn't open organya player. Make sure you have all game files in the \"game\" folder.",
+					"Error",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Error
+				);
+				return;
+			}
+
+			start_process(exec.c_str());
+		}
+
+		private: System::Void CreditsButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			MessageBox::Show(
+				"Work in progress...",
+				"Info",
+				MessageBoxButtons::OK,
+				MessageBoxIcon::Information
+			);
 		}
 	};
 }
