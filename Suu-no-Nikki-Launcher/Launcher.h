@@ -86,7 +86,7 @@ namespace SuunoNikkiLauncher {
 			this->CopyrightLabel->Location = System::Drawing::Point(283, 517);
 			this->CopyrightLabel->Name = L"CopyrightLabel";
 			this->CopyrightLabel->Size = System::Drawing::Size(112, 14);
-			this->CopyrightLabel->TabIndex = 1;
+			this->CopyrightLabel->TabIndex = 0;
 			this->CopyrightLabel->Text = L"Infinite Splits";
 			// 
 			// CloseButton
@@ -103,7 +103,7 @@ namespace SuunoNikkiLauncher {
 			this->CloseButton->Location = System::Drawing::Point(12, 333);
 			this->CloseButton->Name = L"CloseButton";
 			this->CloseButton->Size = System::Drawing::Size(129, 36);
-			this->CloseButton->TabIndex = 2;
+			this->CloseButton->TabIndex = 5;
 			this->CloseButton->Text = L"Quit";
 			this->CloseButton->UseVisualStyleBackColor = false;
 			this->CloseButton->Click += gcnew System::EventHandler(this, &Launcher::CloseButton_Click);
@@ -122,7 +122,7 @@ namespace SuunoNikkiLauncher {
 			this->CreditsButton->Location = System::Drawing::Point(12, 291);
 			this->CreditsButton->Name = L"CreditsButton";
 			this->CreditsButton->Size = System::Drawing::Size(129, 36);
-			this->CreditsButton->TabIndex = 3;
+			this->CreditsButton->TabIndex = 4;
 			this->CreditsButton->Text = L"Credits";
 			this->CreditsButton->UseVisualStyleBackColor = false;
 			this->CreditsButton->Click += gcnew System::EventHandler(this, &Launcher::CreditsButton_Click);
@@ -141,7 +141,7 @@ namespace SuunoNikkiLauncher {
 			this->SoundTrackButton->Location = System::Drawing::Point(12, 249);
 			this->SoundTrackButton->Name = L"SoundTrackButton";
 			this->SoundTrackButton->Size = System::Drawing::Size(129, 36);
-			this->SoundTrackButton->TabIndex = 4;
+			this->SoundTrackButton->TabIndex = 3;
 			this->SoundTrackButton->Text = L"Soundtrack";
 			this->SoundTrackButton->UseVisualStyleBackColor = false;
 			this->SoundTrackButton->Click += gcnew System::EventHandler(this, &Launcher::SoundTrackButton_Click);
@@ -160,7 +160,7 @@ namespace SuunoNikkiLauncher {
 			this->SettingsButton->Location = System::Drawing::Point(12, 207);
 			this->SettingsButton->Name = L"SettingsButton";
 			this->SettingsButton->Size = System::Drawing::Size(129, 36);
-			this->SettingsButton->TabIndex = 5;
+			this->SettingsButton->TabIndex = 2;
 			this->SettingsButton->Text = L"Settings";
 			this->SettingsButton->UseVisualStyleBackColor = false;
 			this->SettingsButton->Click += gcnew System::EventHandler(this, &Launcher::SettingsButton_Click);
@@ -179,7 +179,7 @@ namespace SuunoNikkiLauncher {
 			this->PlayButton->Location = System::Drawing::Point(12, 148);
 			this->PlayButton->Name = L"PlayButton";
 			this->PlayButton->Size = System::Drawing::Size(175, 53);
-			this->PlayButton->TabIndex = 6;
+			this->PlayButton->TabIndex = 1;
 			this->PlayButton->Text = L"PLAY";
 			this->PlayButton->UseVisualStyleBackColor = false;
 			this->PlayButton->Click += gcnew System::EventHandler(this, &Launcher::PlayButton_Click);
