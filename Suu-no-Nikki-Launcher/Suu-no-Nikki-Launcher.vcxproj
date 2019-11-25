@@ -174,7 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\app.ico" />
-    <Image Include="res\decent_to_inferno.png" />
+    <Image Include="res\background.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\discord-rpc.dll" />

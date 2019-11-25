@@ -22,6 +22,7 @@ namespace SuunoNikkiLauncher {
 				//    also less smoother.
 				this->VersionLabel->Parent = this->BackgroundPicture;
 				this->CopyrightLabel->Parent = this->BackgroundPicture;
+				this->Logo->Parent = this->BackgroundPicture;
 			}
 
 		protected:
@@ -43,6 +44,7 @@ namespace SuunoNikkiLauncher {
 		private: System::Windows::Forms::Button^  SettingsButton;
 		private: System::Windows::Forms::Button^  PlayButton;
 		private: System::Windows::Forms::PictureBox^  BackgroundPicture;
+		private: System::Windows::Forms::PictureBox^  Logo;
 
 		private: System::ComponentModel::IContainer^  components;
 
@@ -60,7 +62,9 @@ namespace SuunoNikkiLauncher {
 			this->SettingsButton = (gcnew System::Windows::Forms::Button());
 			this->PlayButton = (gcnew System::Windows::Forms::Button());
 			this->BackgroundPicture = (gcnew System::Windows::Forms::PictureBox());
+			this->Logo = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->BackgroundPicture))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Logo))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// VersionLabel
@@ -75,6 +79,9 @@ namespace SuunoNikkiLauncher {
 			this->VersionLabel->Size = System::Drawing::Size(140, 14);
 			this->VersionLabel->TabIndex = 0;
 			this->VersionLabel->Text = L"Suu no Nikki v1.0.0";
+			this->VersionLabel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseDown);
+			this->VersionLabel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseMove);
+			this->VersionLabel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseUp);
 			// 
 			// CopyrightLabel
 			// 
@@ -88,6 +95,9 @@ namespace SuunoNikkiLauncher {
 			this->CopyrightLabel->Size = System::Drawing::Size(112, 14);
 			this->CopyrightLabel->TabIndex = 0;
 			this->CopyrightLabel->Text = L"Infinite Splits";
+			this->CopyrightLabel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseDown);
+			this->CopyrightLabel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseMove);
+			this->CopyrightLabel->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseUp);
 			// 
 			// CloseButton
 			// 
@@ -192,15 +202,29 @@ namespace SuunoNikkiLauncher {
 			this->BackgroundPicture->Size = System::Drawing::Size(407, 540);
 			this->BackgroundPicture->TabIndex = 7;
 			this->BackgroundPicture->TabStop = false;
-			this->BackgroundPicture->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::BackgroundPicture_MouseDown);
-			this->BackgroundPicture->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::BackgroundPicture_MouseMove);
-			this->BackgroundPicture->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::BackgroundPicture_MouseUp);
+			this->BackgroundPicture->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseDown);
+			this->BackgroundPicture->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseMove);
+			this->BackgroundPicture->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseUp);
+			// 
+			// Logo
+			// 
+			this->Logo->BackColor = System::Drawing::Color::Transparent;
+			this->Logo->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Logo.Image")));
+			this->Logo->Location = System::Drawing::Point(12, 20);
+			this->Logo->Name = L"Logo";
+			this->Logo->Size = System::Drawing::Size(380, 109);
+			this->Logo->TabIndex = 8;
+			this->Logo->TabStop = false;
+			this->Logo->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseDown);
+			this->Logo->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseMove);
+			this->Logo->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Launcher::WindowOffset_MouseUp);
 			// 
 			// Launcher
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(407, 540);
+			this->Controls->Add(this->Logo);
 			this->Controls->Add(this->VersionLabel);
 			this->Controls->Add(this->PlayButton);
 			this->Controls->Add(this->SettingsButton);
@@ -217,6 +241,7 @@ namespace SuunoNikkiLauncher {
 			this->Text = L"Sue\'s Diary ~ Suu no Nikki";
 			this->Load += gcnew System::EventHandler(this, &Launcher::Launcher_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->BackgroundPicture))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Logo))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -232,19 +257,19 @@ namespace SuunoNikkiLauncher {
 			Launcher::Close();
 		}
 
-		private: System::Void BackgroundPicture_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		private: System::Void WindowOffset_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			this->dragging = true;
 			this->offset = Point(e->X, e->Y);
 		}
 
-		private: System::Void BackgroundPicture_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		private: System::Void WindowOffset_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			if (this->dragging) {
 				Point current_position = PointToScreen(e->Location);
 				Location = Point(current_position.X - this->offset.X, current_position.Y - this->offset.Y);
 			}
 		}
 
-		private: System::Void BackgroundPicture_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		private: System::Void WindowOffset_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			this->dragging = false;
 		}
 
