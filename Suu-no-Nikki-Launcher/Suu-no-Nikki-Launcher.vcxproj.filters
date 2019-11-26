@@ -50,6 +50,9 @@
     <ClInclude Include="MapNames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\app.ico">
@@ -71,7 +74,7 @@
     <Library Include="lib\discord-rpc.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="icon.rc">
+    <ResourceCompile Include="Suu-no-Nikki-Launcher.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
