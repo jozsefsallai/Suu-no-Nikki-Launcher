@@ -298,7 +298,7 @@ namespace SuunoNikkiLauncher {
 		}
 
 		private: System::Void SettingsButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			std::string exec = std::string("game\\DoConfig.exe");
+			std::string exec = std::string("game\\") + CONFIG_NAME;
 
 			if (!file_exists(exec)) {
 				MessageBox::Show(
@@ -314,7 +314,7 @@ namespace SuunoNikkiLauncher {
 		}
 
 		private: System::Void SoundTrackButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			std::string exec = std::string("game\\OrgView.exe");
+			std::string exec = std::string("game\\") + ORGVIEW_NAME;
 
 			if (!file_exists(exec)) {
 				MessageBox::Show(
